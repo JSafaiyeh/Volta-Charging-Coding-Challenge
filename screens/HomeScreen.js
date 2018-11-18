@@ -8,9 +8,11 @@ class HomeScreen extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <View>
-        <StationsList />
+        <StationsList onItemPress={(station) => navigation.push('Detail', { station })} />
       </View>
     );
   }

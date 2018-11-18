@@ -1,14 +1,16 @@
 import React, { Component, PureComponent } from 'react';
-import { ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 class Station extends PureComponent {
   render() {
-    const { name, status } = this.props;
+    const { name, status, onPress } = this.props;
     return (
-      <View style={stationStyles.container}>
-        <Text style={stationStyles.name}>{name}</Text>
-        <Text>{status}</Text>
-      </View>
+      <TouchableHighlight underlayColor={'lightgrey'} style={stationStyles.container} onPress={() => onPress()}>
+        <View>
+          <Text style={stationStyles.name}>{name}</Text>
+          <Text>{status}</Text>
+          </View>
+      </TouchableHighlight>
     )
   }
 }
@@ -67,6 +69,7 @@ class StationsList extends Component {
 
   renderList = () => {
     const { fetching, stations } = this.state;
+    const { onItemPress } = this.props;
 
     if (fetching) {
       return (
@@ -85,7 +88,7 @@ class StationsList extends Component {
         style={listStyles.container}
         showsHorizontalScrollIndicator={false}
         data={stations}
-        renderItem={({item}) => <Station {...item} />}
+        renderItem={({item}) => <Station {...item} onPress={() => onItemPress(item)} />}
         keyExtractor={(item) => item.id}
         onEndReached={this.fetchStations}
         onEndReachedThreshold={0.7}
