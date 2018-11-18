@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import StationsList from './component/StationsList';
+import { createAppContainer, createStackNavigator } from "react-navigation";
+import HomeScreen from './screens/HomeScreen';
 
-export default class App extends Component {
-  render() {
-    return (
-      <View>
-        <StationsList />
-      </View>
-    );
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen
   }
-}
+});
+
+export default createAppContainer(AppNavigator);
