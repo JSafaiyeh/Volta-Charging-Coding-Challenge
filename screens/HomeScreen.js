@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import StationsList from '../component/StationsList';
+import StationsList from '../components/StationsList';
 
 class HomeScreen extends Component {
   static navigationOptions = {
