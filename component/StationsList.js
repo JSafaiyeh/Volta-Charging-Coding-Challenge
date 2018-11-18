@@ -31,18 +31,31 @@ class StationsList extends Component {
     this.state = {
       stations: [],
       fetching: false,
+      offset: 0
     }
   }
 
   componentDidMount = () => {
     this.setState({ fetching: true });
-    this.fetchStations().then((stations) => {
-      this.setState({ stations, fetching: false });
-    });
+    this.fetchStations();
   }
 
   fetchStations = () => {
-    return fetch('https://api.voltaapi.com/v1/stations?limit=20', {
+    const { stations, offset } = this.state;
+
+    this.fetchStationsFromAPI(offset).then((res) => {
+      if (!res) return;
+
+      this.setState({
+        stations: stations.concat(res),
+        offset: offset + 50,
+        fetching: false
+      })
+    })
+  }
+
+  fetchStationsFromAPI = (offset) => {
+    return fetch(`https://api.voltaapi.com/v1/stations?limit=50&offset=${offset}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json'
@@ -57,7 +70,7 @@ class StationsList extends Component {
 
     if (fetching) {
       return (
-        <ActivityIndicator />
+        <ActivityIndicator color='lightgrey' size='large' />
       );
     }
     
@@ -74,6 +87,8 @@ class StationsList extends Component {
         data={stations}
         renderItem={({item}) => <Station {...item} />}
         keyExtractor={(item) => item.id}
+        onEndReached={this.fetchStations}
+        onEndReachedThreshold={0.7}
       />
     );
   }
