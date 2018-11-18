@@ -1,5 +1,28 @@
-import React, { Component } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import React, { Component, PureComponent } from 'react';
+import { ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+
+class Station extends PureComponent {
+  render() {
+    const { name, status } = this.props;
+    return (
+      <View style={stationStyles.container}>
+        <Text style={stationStyles.name}>{name}</Text>
+        <Text>{status}</Text>
+      </View>
+    )
+  }
+}
+
+const stationStyles = StyleSheet.create({
+  container: {
+    padding: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'lightgrey'
+  },
+  name: {
+    fontSize: 18,
+  }
+})
 
 class StationsList extends Component {
   constructor(props) {
@@ -13,11 +36,13 @@ class StationsList extends Component {
 
   componentDidMount = () => {
     this.setState({ fetching: true });
-    this.fetchStations().then((stations) => { this.setState({ stations, fetching: false }); console.log(stations) });
+    this.fetchStations().then((stations) => {
+      this.setState({ stations, fetching: false });
+    });
   }
 
   fetchStations = () => {
-    return fetch('https://api.voltaapi.com/v1/stations', {
+    return fetch('https://api.voltaapi.com/v1/stations?limit=20', {
       method: 'GET',
       headers: {
         Accept: 'application/json'
@@ -34,31 +59,36 @@ class StationsList extends Component {
       return (
         <ActivityIndicator />
       );
-    } else if (stations.length === 0) {
+    }
+    
+    if (stations.length === 0) {
       return (
         <Text>No Stations</Text>
       );
     }
 
-    console.log(stations)
-
     return (
       <FlatList
+        style={listStyles.container}
+        showsHorizontalScrollIndicator={false}
         data={stations}
-        renderItem={({item}) => <Text>{item.name}</Text>}
+        renderItem={({item}) => <Station {...item} />}
+        keyExtractor={(item) => item.id}
       />
     );
   }
 
-  render() {
-    const { stations } = this.state;
-
-    return (
-      <View>
-        { this.renderList() }
-      </View>
-    )
-  }
+  render = () => (
+    <View>
+      { this.renderList() }
+    </View>
+  )
 }
+
+const listStyles = StyleSheet.create({
+  container: {
+    width: Dimensions.get('window').width
+  }
+})
 
 export default StationsList;
