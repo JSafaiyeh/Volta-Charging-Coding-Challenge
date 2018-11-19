@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import { ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import Status from './Status';
 
 class Station extends PureComponent {
   render() {
@@ -8,8 +9,8 @@ class Station extends PureComponent {
       <TouchableHighlight underlayColor={'lightgrey'} style={stationStyles.container} onPress={() => onPress()}>
         <View>
           <Text style={stationStyles.name}>{name}</Text>
-          <Text>{status}</Text>
-          </View>
+          <Status status={status} />
+        </View>
       </TouchableHighlight>
     )
   }
