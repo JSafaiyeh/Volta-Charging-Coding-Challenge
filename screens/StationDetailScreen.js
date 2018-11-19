@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Address from '../components/Address';
+import Chip from '../components/Chip';
 import MapView from '../components/MapView';
+import Meter from '../components/Meter';
 
 class StationDetailScreen extends Component {
 
@@ -16,10 +18,25 @@ class StationDetailScreen extends Component {
     return (
       <View>
         <MapView coordinates={station.location.coordinates}/>
+        <View style={styles.chipContainer}>
+          {
+            station.pay_to_park ? <Chip text={'Pay To Park'} backgroundColor={'green'} /> : null
+          }
+          {
+            station.meters.map((meter) => <Meter oem={meter.oem} />)
+          }
+        </View>
         <Address coordinates={station.location.coordinates} name={station.name} street={station.street_address} city={station.city} state={station.state} zip={station.zip_code} />
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  chipContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  }
+})
 
 export default StationDetailScreen;
