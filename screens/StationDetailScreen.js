@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import MapView from '../components/MapView';
 
 class StationDetailScreen extends Component {
 
@@ -12,7 +13,10 @@ class StationDetailScreen extends Component {
     const station = navigation.getParam('station', {});
 
     return (
-      <Text>{station.name}</Text>
+      <View>
+        <MapView coordinates={station.location.coordinates}/>
+        <Text>{station.name}</Text>
+      </View>
     )
   }
 }
