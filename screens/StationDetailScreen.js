@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import Address from '../components/Address';
 import MapView from '../components/MapView';
 
 class StationDetailScreen extends Component {
@@ -15,7 +16,7 @@ class StationDetailScreen extends Component {
     return (
       <View>
         <MapView coordinates={station.location.coordinates}/>
-        <Text>{station.name}</Text>
+        <Address coordinates={station.location.coordinates} name={station.name} street={station.street_address} city={station.city} state={station.state} zip={station.zip_code} />
       </View>
     )
   }
