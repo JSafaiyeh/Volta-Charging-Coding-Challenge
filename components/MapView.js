@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import RNMapView, { Marker } from 'react-native-maps';
 
 const LAT_DELTA = 0.0922
 const LONG_DELTA = 0.0421;
@@ -11,7 +11,7 @@ const INITIAL_REGION = {
   longitudeDelta: LONG_DELTA,
 };
 
-class StationMap extends React.Component {
+class MapView extends React.Component {
 
   onMapReady = () => {
     let latitude = this.props.coordinates[1]; 
@@ -26,7 +26,7 @@ class StationMap extends React.Component {
   }
 
   render = () => (
-    <MapView
+    <RNMapView
       ref={map => this.map = map}
       style={styles.map}
       initialRegion={INITIAL_REGION}
@@ -35,7 +35,7 @@ class StationMap extends React.Component {
       <Marker 
         coordinate={{ latitude: this.props.coordinates[1], longitude: this.props.coordinates[0] }}
       />
-    </MapView>
+    </RNMapView>
   )
 }
 
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default StationMap;
+export default MapView;
